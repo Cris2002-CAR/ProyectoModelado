@@ -145,11 +145,24 @@ JOIN Servicio_Adicional ON Reserva_Servicio_Adicional.ID_Servicio = Servicio_Adi
 GROUP BY TO_CHAR(Fecha, 'YYYY-MM');
 
 
-
-
-
-
 /*
 Reporte de Satisfacción del Cliente: Basado en las encuestas de satisfacción recopiladas al
 momento del check-out.
 */
+
+-- Obtener promedios
+SELECT 
+    AVG(Calificacion_Servicio) AS Promedio_Servicio,
+    AVG(Calificacion_Limpieza) AS Promedio_Limpieza,
+    AVG(Calificacion_Comodidades) AS Promedio_Comodidades
+FROM Encuesta_Satisfaccion;
+
+-- Obtener los últimos 10 comentarios
+SELECT 
+    Comentarios
+FROM 
+    Encuesta_Satisfaccion
+ORDER BY 
+    Fecha_Encuesta DESC 
+FETCH FIRST 10 ROWS ONLY;
+
