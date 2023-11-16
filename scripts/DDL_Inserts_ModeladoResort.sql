@@ -1,4 +1,4 @@
-//Cristian Cardona A00369414 - Juan Pablo Ordoñez A00378093
+//Cristian Cardona A00369414 - Juan Pablo Ordoï¿½ez A00378093
 
 --eliminacion de tablas
 DROP TABLE Reserva_Servicio_Adicional CASCADE CONSTRAINTS;
@@ -25,13 +25,13 @@ CREATE TABLE Cliente (
     Fecha_de_Nacimiento DATE
 );
 
--- Creación de la tabla Tipo de Habitación (Dominio)
+-- Creaciï¿½n de la tabla Tipo de Habitaciï¿½n (Dominio)
 CREATE TABLE Tipo_Habitacion (
     ID_Tipo NUMBER PRIMARY KEY,
     Descripcion VARCHAR2(255) NOT NULL
 );
 
--- Creación de la tabla Habitación
+-- Creaciï¿½n de la tabla Habitaciï¿½n
 CREATE TABLE Habitacion (
     ID_Habitacion NUMBER PRIMARY KEY,
     ID_Tipo NUMBER NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE Habitacion (
     FOREIGN KEY (ID_Tipo) REFERENCES Tipo_Habitacion(ID_Tipo)
 );
 
--- Creación de la tabla Actividad
+-- Creaciï¿½n de la tabla Actividad
 CREATE TABLE Actividad (
     ID_Actividad NUMBER PRIMARY KEY,
     Nombre VARCHAR2(255) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE Actividad (
     Capacidad INT NOT NULL
 );
 
--- Creación de la tabla Empleado
+-- Creaciï¿½n de la tabla Empleado
 CREATE TABLE Empleado (
     ID_Empleado NUMBER PRIMARY KEY,
     Nombre VARCHAR2(255) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE Empleado (
     Cargo VARCHAR2(255) NOT NULL
 );
 
--- Creación de la tabla Reserva (Entidad Débil)
+-- Creaciï¿½n de la tabla Reserva (Entidad Dï¿½bil)
 CREATE TABLE Reserva (
     ID_Reserva NUMBER PRIMARY KEY,
     Fecha DATE NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE Reserva (
     FOREIGN KEY (ID_Empleado) REFERENCES Empleado(ID_Empleado)
 );
 
--- Creación de la tabla Reserva_Habitacion (Relación)
+-- Creaciï¿½n de la tabla Reserva_Habitacion (Relaciï¿½n)
 CREATE TABLE Reserva_Habitacion (
     ID_Reserva NUMBER NOT NULL,
     ID_Habitacion NUMBER NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Reserva_Habitacion (
     FOREIGN KEY (ID_Habitacion) REFERENCES Habitacion(ID_Habitacion)
 );
 
--- Creación de la tabla Reserva_Actividad (Relación)
+-- Creaciï¿½n de la tabla Reserva_Actividad (Relaciï¿½n)
 CREATE TABLE Reserva_Actividad (
     ID_Reserva NUMBER NOT NULL,
     ID_Actividad NUMBER NOT NULL,
@@ -82,14 +82,14 @@ CREATE TABLE Reserva_Actividad (
     FOREIGN KEY (ID_Actividad) REFERENCES Actividad(ID_Actividad)
 );
 
--- Creación de la tabla Servicio_Adicional
+-- Creaciï¿½n de la tabla Servicio_Adicional
 CREATE TABLE Servicio_Adicional (
     ID_Servicio NUMBER PRIMARY KEY,
     Descripcion VARCHAR2(255) NOT NULL,
     Costo DECIMAL(10,2) NOT NULL
 );
 
--- Creación de la tabla Reserva_Servicio_Adicional (Relación con Atributos)
+-- Creaciï¿½n de la tabla Reserva_Servicio_Adicional (Relaciï¿½n con Atributos)
 CREATE TABLE Reserva_Servicio_Adicional (
     ID_Reserva NUMBER NOT NULL,
     ID_Servicio NUMBER NOT NULL,
@@ -97,6 +97,17 @@ CREATE TABLE Reserva_Servicio_Adicional (
     Costo_Total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (ID_Reserva) REFERENCES Reserva(ID_Reserva),
     FOREIGN KEY (ID_Servicio) REFERENCES Servicio_Adicional(ID_Servicio)
+);
+
+-- Creacion de una tabla para las encuestas de satisfaccion
+CREATE TABLE Encuesta_Satisfaccion (
+    ID_Reserva NUMBER PRIMARY KEY,
+    Calificacion_Servicio INT,
+    Calificacion_Limpieza INT,
+    Calificacion_Comodidades INT,
+    Comentarios VARCHAR2(1000),
+    Fecha_Encuesta DATE,
+    FOREIGN KEY (ID_Reserva) REFERENCES Reserva(ID_Reserva)
 );
 
 
@@ -120,7 +131,7 @@ INSERT INTO Tipo_Habitacion VALUES (4, 'Familiar');
 INSERT INTO Tipo_Habitacion VALUES (5, 'Ejecutiva');
 INSERT INTO Tipo_Habitacion VALUES (6, 'Presidencial');
 INSERT INTO Tipo_Habitacion VALUES (7, 'Matrimonial');
-INSERT INTO Tipo_Habitacion VALUES (8, 'Estándar');
+INSERT INTO Tipo_Habitacion VALUES (8, 'Estï¿½ndar');
 INSERT INTO Tipo_Habitacion VALUES (9, 'VIP');
 INSERT INTO Tipo_Habitacion VALUES (10, 'Penthouse');
 
@@ -140,7 +151,7 @@ INSERT INTO Habitacion VALUES (10, 2, 155.00, 'Disponible');
 INSERT INTO Actividad VALUES (1, 'Gimnasio', 10.00, 20);
 INSERT INTO Actividad VALUES (2, 'Piscina', 15.00, 30);
 INSERT INTO Actividad VALUES (3, 'Yoga', 12.50, 15);
-INSERT INTO Actividad VALUES (4, 'Excursión', 25.00, 25);
+INSERT INTO Actividad VALUES (4, 'Excursiï¿½n', 25.00, 25);
 INSERT INTO Actividad VALUES (5, 'Spa', 20.00, 10);
 INSERT INTO Actividad VALUES (6, 'Clases de Cocina', 18.00, 20);
 INSERT INTO Actividad VALUES (7, 'Senderismo', 14.00, 18);
@@ -202,11 +213,11 @@ INSERT INTO Servicio_Adicional VALUES (1, 'Late Check-out', 20.00);
 INSERT INTO Servicio_Adicional VALUES (2, 'Wi-Fi Premium', 5.00);
 INSERT INTO Servicio_Adicional VALUES (3, 'Desayuno Buffet', 15.00);
 INSERT INTO Servicio_Adicional VALUES (4, 'Estacionamiento', 10.00);
-INSERT INTO Servicio_Adicional VALUES (5, 'Servicio a la Habitación', 25.00);
+INSERT INTO Servicio_Adicional VALUES (5, 'Servicio a la Habitaciï¿½n', 25.00);
 INSERT INTO Servicio_Adicional VALUES (6, 'Spa Privado', 30.00);
 INSERT INTO Servicio_Adicional VALUES (7, 'Traslado Aeropuerto', 40.00);
-INSERT INTO Servicio_Adicional VALUES (8, 'Cena Romántica', 50.00);
-INSERT INTO Servicio_Adicional VALUES (9, 'Lavandería Express', 12.00);
+INSERT INTO Servicio_Adicional VALUES (8, 'Cena Romï¿½ntica', 50.00);
+INSERT INTO Servicio_Adicional VALUES (9, 'Lavanderï¿½a Express', 12.00);
 INSERT INTO Servicio_Adicional VALUES (10, 'Servicio de Concierge', 8.00);
 
 
@@ -220,3 +231,14 @@ INSERT INTO Reserva_Servicio_Adicional VALUES (3, 1, 3, 45.00);
 INSERT INTO Reserva_Servicio_Adicional VALUES (3, 2, 2, 10.00);
 INSERT INTO Reserva_Servicio_Adicional VALUES (4, 2, 1, 5.00);
 INSERT INTO Reserva_Servicio_Adicional VALUES (4, 1, 2, 30.00);
+
+INSERT INTO Encuesta_Satisfaccion VALUES (1, 8, 9, 7, 'Muy buen servicio, pero la limpieza podrÃ­a mejorar.', SYSDATE - 10);
+INSERT INTO Encuesta_Satisfaccion VALUES (2, 7, 7, 6, 'Instalaciones cÃ³modas, pero el servicio fue regular.', SYSDATE - 9);
+INSERT INTO Encuesta_Satisfaccion VALUES (3, 9, 8, 9, 'Excelente experiencia, definitivamente regresarÃ©.', SYSDATE - 8);
+INSERT INTO Encuesta_Satisfaccion VALUES (4, 6, 5, 7, 'Las comodidades estÃ¡n bien, pero la limpieza deja mucho que desear.', SYSDATE - 7);
+INSERT INTO Encuesta_Satisfaccion VALUES (5, 10, 9, 10, 'Â¡Todo perfecto! Un lugar maravilloso para quedarse.', SYSDATE - 6);
+INSERT INTO Encuesta_Satisfaccion VALUES (6, 4, 6, 5, 'Necesitan mejorar en servicio al cliente.', SYSDATE - 5);
+INSERT INTO Encuesta_Satisfaccion VALUES (7, 5, 7, 4, 'Buenas instalaciones, pero el personal no era muy atento.', SYSDATE - 4);
+INSERT INTO Encuesta_Satisfaccion VALUES (8, 8, 8, 8, 'Buen balance entre calidad y precio.', SYSDATE - 3);
+INSERT INTO Encuesta_Satisfaccion VALUES (9, 7, 9, 7, 'Instalaciones limpias, pero el servicio podrÃ­a ser mÃ¡s rÃ¡pido.', SYSDATE - 2);
+INSERT INTO Encuesta_Satisfaccion VALUES (10, 9, 10, 9, 'Una experiencia increÃ­ble, el personal fue excepcionalmente atento.', SYSDATE - 1);
