@@ -67,53 +67,86 @@ ORDER BY Mes;
 Reporte de Ingresos: Genera un informe de ingresos diarios, semanales y mensuales
 desglosado por habitaciones, actividades y servicios adicionales.
 */
--- Ingresos diarios
+--ingresos por habitaciones
 SELECT 
     TO_CHAR(Fecha, 'YYYY-MM-DD') AS Fecha,
-     SUM(Costo_por_noche) AS Ingresos_Habitaciones,
-    SUM(Actividad.Costo) AS Ingresos_Actividades,
-    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales,
-    SUM(Costo_por_noche + Actividad.Costo +  Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Totales
+    SUM(Costo_por_noche) AS Ingresos_Habitaciones
 FROM Reserva
 JOIN Reserva_Habitacion ON Reserva.ID_Reserva = Reserva_Habitacion.ID_Reserva
 JOIN Habitacion ON Reserva_Habitacion.ID_Habitacion = Habitacion.ID_Habitacion
+GROUP BY TO_CHAR(Fecha, 'YYYY-MM-DD');
+
+SELECT 
+    TO_CHAR(Fecha, 'IYYY-IW') AS Semana,
+    SUM(Costo_por_noche) AS Ingresos_Habitaciones
+FROM Reserva
+JOIN Reserva_Habitacion ON Reserva.ID_Reserva = Reserva_Habitacion.ID_Reserva
+JOIN Habitacion ON Reserva_Habitacion.ID_Habitacion = Habitacion.ID_Habitacion
+GROUP BY TO_CHAR(Fecha, 'IYYY-IW');
+
+SELECT 
+    TO_CHAR(Fecha, 'YYYY-MM') AS Mes,
+    SUM(Costo_por_noche) AS Ingresos_Habitaciones
+FROM Reserva
+JOIN Reserva_Habitacion ON Reserva.ID_Reserva = Reserva_Habitacion.ID_Reserva
+JOIN Habitacion ON Reserva_Habitacion.ID_Habitacion = Habitacion.ID_Habitacion
+GROUP BY TO_CHAR(Fecha, 'YYYY-MM');
+
+
+--ingresos por actividades
+SELECT 
+    TO_CHAR(Fecha, 'YYYY-MM-DD') AS Fecha,
+    SUM(Actividad.Costo) AS Ingresos_Actividades
+FROM Reserva
 JOIN Reserva_Actividad ON Reserva.ID_Reserva = Reserva_Actividad.ID_Reserva
 JOIN Actividad ON Reserva_Actividad.ID_Actividad = Actividad.ID_Actividad
+GROUP BY TO_CHAR(Fecha, 'YYYY-MM-DD');
+
+SELECT 
+    TO_CHAR(Fecha, 'IYYY-IW') AS Semana,
+    SUM(Actividad.Costo) AS Ingresos_Actividades
+FROM Reserva
+JOIN Reserva_Actividad ON Reserva.ID_Reserva = Reserva_Actividad.ID_Reserva
+JOIN Actividad ON Reserva_Actividad.ID_Actividad = Actividad.ID_Actividad
+GROUP BY TO_CHAR(Fecha, 'IYYY-IW');
+
+SELECT 
+    TO_CHAR(Fecha, 'YYYY-MM') AS Mes,
+    SUM(Actividad.Costo) AS Ingresos_Actividades
+FROM Reserva
+JOIN Reserva_Actividad ON Reserva.ID_Reserva = Reserva_Actividad.ID_Reserva
+JOIN Actividad ON Reserva_Actividad.ID_Actividad = Actividad.ID_Actividad
+GROUP BY TO_CHAR(Fecha, 'YYYY-MM');
+
+
+--ingresos por servicios adicionales
+
+SELECT 
+    TO_CHAR(Fecha, 'YYYY-MM-DD') AS Fecha,
+    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales
+FROM Reserva
 JOIN Reserva_Servicio_Adicional ON Reserva.ID_Reserva = Reserva_Servicio_Adicional.ID_Reserva
 JOIN Servicio_Adicional ON Reserva_Servicio_Adicional.ID_Servicio = Servicio_Adicional.ID_Servicio
 GROUP BY TO_CHAR(Fecha, 'YYYY-MM-DD');
 
--- Ingresos semanales
 SELECT 
     TO_CHAR(Fecha, 'IYYY-IW') AS Semana,
-    SUM(Costo_por_noche) AS Ingresos_Habitaciones,
-    SUM(Actividad.Costo) AS Ingresos_Actividades,
-    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales,
-    SUM(Costo_por_noche + Actividad.Costo +  Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Totales
+    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales
 FROM Reserva
-JOIN Reserva_Habitacion ON Reserva.ID_Reserva = Reserva_Habitacion.ID_Reserva
-JOIN Habitacion ON Reserva_Habitacion.ID_Habitacion = Habitacion.ID_Habitacion
-JOIN Reserva_Actividad ON Reserva.ID_Reserva = Reserva_Actividad.ID_Reserva
-JOIN Actividad ON Reserva_Actividad.ID_Actividad = Actividad.ID_Actividad
 JOIN Reserva_Servicio_Adicional ON Reserva.ID_Reserva = Reserva_Servicio_Adicional.ID_Reserva
-JOIN Servicio_Adicional ON Reserva_Servicio_Adicional.ID_Servicio = Servicio_Adicional.ID_Servicio
 GROUP BY TO_CHAR(Fecha, 'IYYY-IW');
 
--- Ingresos mensuales
 SELECT 
     TO_CHAR(Fecha, 'YYYY-MM') AS Mes,
-    SUM(Costo_por_noche) AS Ingresos_Habitaciones,
-    SUM(Actividad.Costo) AS Ingresos_Actividades,
-    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales,
-    SUM(Costo_por_noche + Actividad.Costo +  Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Totales
+    SUM(Reserva_Servicio_Adicional.Costo_Total) AS Ingresos_Servicios_Adicionales
 FROM Reserva
-JOIN Reserva_Habitacion ON Reserva.ID_Reserva = Reserva_Habitacion.ID_Reserva
-JOIN Habitacion ON Reserva_Habitacion.ID_Habitacion = Habitacion.ID_Habitacion
-JOIN Reserva_Actividad ON Reserva.ID_Reserva = Reserva_Actividad.ID_Reserva
-JOIN Actividad ON Reserva_Actividad.ID_Actividad = Actividad.ID_Actividad
 JOIN Reserva_Servicio_Adicional ON Reserva.ID_Reserva = Reserva_Servicio_Adicional.ID_Reserva
 JOIN Servicio_Adicional ON Reserva_Servicio_Adicional.ID_Servicio = Servicio_Adicional.ID_Servicio
 GROUP BY TO_CHAR(Fecha, 'YYYY-MM');
+
+
+
+
 
 
 /*
